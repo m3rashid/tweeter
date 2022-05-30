@@ -8,6 +8,7 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
+      {/* @ts-ignore */}
       <RecoilRoot>
         <Component {...pageProps} />
       </RecoilRoot>

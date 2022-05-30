@@ -1,7 +1,16 @@
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 
-function Login({ providers }) {
+interface IProvider {
+  name: string;
+  id: string;
+}
+
+interface IProps {
+  providers: IProvider[];
+}
+
+function Login({ providers }: IProps) {
   return (
     <div className="flex flex-col items-center space-y-20 pt-48">
       <Image

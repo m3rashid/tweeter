@@ -37,7 +37,7 @@ function Sidebar() {
       </button>
       <div
         className="text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto xl:-mr-5"
-        onClick={signOut}
+        onClick={() => signOut}
       >
         <img
           src={session.user.image}

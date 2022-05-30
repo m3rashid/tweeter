@@ -18,34 +18,33 @@ import { db } from "../firebase";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Comment from "../components/Comment";
 import Head from "next/head";
+import Login from "../components/Login";
 
 function PostPage({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
-  const [post, setPost] = useState();
+  const [post, setPost] = useState<any>();
   const [comments, setComments] = useState([]);
   const router = useRouter();
   const { id } = router.query;
 
-  useEffect(
-    () =>
-      onSnapshot(doc(db, "posts", id), (snapshot) => {
-        setPost(snapshot.data());
-      }),
-    [db]
-  );
+  useEffect(() => {
+    // @ts-ignore
+    onSnapshot(doc(db, "posts", id), (snapshot) => {
+      setPost(snapshot.data());
+    });
+  }, [db]);
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(
-          collection(db, "posts", id, "comments"),
-          orderBy("timestamp", "desc")
-        ),
-        (snapshot) => setComments(snapshot.docs)
+  useEffect(() => {
+    onSnapshot(
+      query(
+        // @ts-ignore
+        collection(db, "posts", id, "comments"),
+        orderBy("timestamp", "desc")
       ),
-    [db, id]
-  );
+      (snapshot) => setComments(snapshot.docs)
+    );
+  }, [db, id]);
 
   if (!session) return <Login providers={providers} />;
 
@@ -76,8 +75,7 @@ function PostPage({ trendingResults, followResults, providers }) {
               {comments.map((comment) => (
                 <Comment
                   key={comment.id}
-                  id={comment.id}
-                  comment={comment.data()}
+                  comment={{ ...comment.data(), id: comment.id }}
                 />
               ))}
             </div>

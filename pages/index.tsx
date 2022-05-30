@@ -17,8 +17,7 @@ export default function Home({ trendingResults, followResults, providers }) {
   return (
     <div className="">
       <Head>
-        <title>Home / Twitter</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Home | Tweeter</title>
       </Head>
 
       <main className="bg-black min-h-screen flex max-w-[1500px] mx-auto">
@@ -28,7 +27,6 @@ export default function Home({ trendingResults, followResults, providers }) {
           trendingResults={trendingResults}
           followResults={followResults}
         />
-
         {isOpen && <Modal />}
       </main>
     </div>

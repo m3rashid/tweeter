@@ -7,7 +7,18 @@ import {
 } from "@heroicons/react/outline";
 import Moment from "react-moment";
 
-function Comment({ comment }) {
+interface IComment {
+  comment: {
+    id: string;
+    userImg: string;
+    username?: string;
+    tag?: string;
+    comment?: string;
+    timestamp?: string | any;
+  };
+}
+
+function Comment({ comment }: IComment) {
   return (
     <div className="p-3 flex cursor-pointer border-b border-gray-700">
       <img

@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
@@ -20,22 +20,21 @@ import {
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import Moment from "react-moment";
+import { IPost } from "./Post";
 
 function Modal() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modalState);
-  const [postId, setPostId] = useRecoilState(postIdState);
-  const [post, setPost] = useState();
+  const postId = useRecoilValue(postIdState);
+  const [post, setPost] = useState<IPost>();
   const [comment, setComment] = useState("");
   const router = useRouter();
 
-  useEffect(
-    () =>
-      onSnapshot(doc(db, "posts", postId), (snapshot) => {
-        setPost(snapshot.data());
-      }),
-    [db]
-  );
+  useEffect(() => {
+    onSnapshot(doc(db, "posts", postId), (snapshot) => {
+      setPost(snapshot.data());
+    });
+  }, [db]);
 
   const sendComment = async (e) => {
     e.preventDefault();
@@ -127,7 +126,7 @@ function Modal() {
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="Tweet your reply"
-                        rows="2"
+                        rows={2}
                         className="bg-transparent outline-none text-[#d9d9d9] text-lg placeholder-gray-500 tracking-wide w-full min-h-[80px]"
                       />
 

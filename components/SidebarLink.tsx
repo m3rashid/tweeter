@@ -1,6 +1,12 @@
 import { useRouter } from "next/router";
 
-function SidebarLink({ Icon, text, active }) {
+interface ISidebarLinks {
+  Icon: any;
+  text: string;
+  active?: boolean;
+}
+
+function SidebarLink({ Icon, text, active }: ISidebarLinks) {
   const router = useRouter();
   return (
     <div

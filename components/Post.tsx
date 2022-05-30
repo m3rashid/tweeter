@@ -16,22 +16,35 @@ import {
   SwitchHorizontalIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
-import {
-  HeartIcon as HeartIconFilled,
-  ChatIcon as ChatIconFilled,
-} from "@heroicons/react/solid";
+import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Moment from "react-moment";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { modalState, postIdState } from "../atoms/modalAtom";
 import { db } from "../firebase";
 
-function Post({ id, post, postPage }) {
+export interface IPost {
+  id: string;
+  userImg?: string;
+  username?: string;
+  tag?: string;
+  text?: string;
+  timestamp?: string | any;
+  image?: string;
+}
+
+interface IProps {
+  id: string | string[];
+  post: IPost;
+  postPage?: any;
+}
+
+function Post({ id, post, postPage }: IProps) {
   const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useRecoilState(modalState);
-  const [postId, setPostId] = useRecoilState(postIdState);
+  const setIsOpen = useSetRecoilState(modalState);
+  const setPostId = useSetRecoilState(postIdState);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -40,6 +53,7 @@ function Post({ id, post, postPage }) {
   useEffect(() => {
     onSnapshot(
       query(
+        // @ts-ignore
         collection(db, "posts", id, "comments"),
         orderBy("timestamp", "desc")
       ),
@@ -48,6 +62,7 @@ function Post({ id, post, postPage }) {
   }, [db, id]);
 
   useEffect(() => {
+    // @ts-ignore
     onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
       setLikes(snapshot.docs)
     );
@@ -59,8 +74,10 @@ function Post({ id, post, postPage }) {
 
   const likePost = async () => {
     if (liked) {
+      // @ts-ignore
       await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
     } else {
+      // @ts-ignore
       await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
         username: session.user.name,
       });
@@ -134,7 +151,7 @@ function Post({ id, post, postPage }) {
             className="flex items-center space-x-1 group"
             onClick={(e) => {
               e.stopPropagation();
-              setPostId(id);
+              setPostId(id as string);
               setIsOpen(true);
             }}
           >
@@ -153,6 +170,7 @@ function Post({ id, post, postPage }) {
               className="flex items-center space-x-1 group"
               onClick={(e) => {
                 e.stopPropagation();
+                // @ts-ignore
                 deleteDoc(doc(db, "posts", id));
                 router.push("/");
               }}
