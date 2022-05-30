@@ -32,6 +32,7 @@ function Modal() {
 
   useEffect(() => {
     onSnapshot(doc(db, "posts", postId), (snapshot) => {
+      // @ts-ignore
       setPost(snapshot.data());
     });
   }, [db]);
