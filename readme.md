@@ -1,5 +1,9 @@
 # Twitter Clone
 
+```
+NOT FULLY COMPLETED
+```
+
 ### Project Demo ScreenShots
 
 <img src="./readme/2.png">
