@@ -1,10 +1,12 @@
-# Twitter Clone
+## Twitter Clone
+
+DUE TO TWITTER APIS BEING NOT FREE, THIS IS ABANDONED
 
 ```
 NOT FULLY COMPLETED
 ```
 
-### Project Demo ScreenShots
+#### Project Demo ScreenShots
 
 <img src="./readme/2.png">
 
